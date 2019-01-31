@@ -95,39 +95,21 @@
             </form>
             <nav id="pagenation" aria-label="Page navigation example">
                 <ul style="display:flex;" class="pagination justify-content-end">
-                    <c:if test="${page != 1}">
-                        <li class="page-item">
-                            <a class="point-btn page-link" href="/list?page=1&search=${search}&keyword=${keyword}"><span class="glyphicon glyphicon-backward"></span></a>
-                        </li>
-                    </c:if>
-                    <c:if test="${page == 1}">
+                    <c:if test="${pageMaker.prev}">
                         <li class="page-item disabled">
-                            <a class="point-btn page-link disabled-atag" href="#"><span class="glyphicon glyphicon-chevron-left"></span></a>
+                            <a href="/list${pageMaker.makeQuery(pageMaker.endPage - 1)}">
+                            <span class="glyphicon glyphicon-chevron-left"></span></a>
                         </li>
                     </c:if>
-                    <c:if test="${page > 1}">
-                        <li class="page-item">
-                            <a class="point-btn page-link" href="/list?page=${page-1}&search=${search}&keyword=${keyword}"><span class="glyphicon glyphicon-chevron-left"></span></a>
-                        </li>
-                    </c:if>
-                    <c:forEach var="i" begin="1" end="${totalPage}">
+                    <c:forEach var="i" begin="${pageMaker.startPage}" end="${pageMaker.endPage}">
                         <li <c:if test="${i eq page}">class="page-item active"</c:if>>
-                            <a class="page-link" href="/list?page=${i}&search=${search}&keyword=${keyword}">${i}</a>
+                            <a class="page-link" href="/list${pageMaker.makeQuery(i)}">${i}</a>
                         </li>
                     </c:forEach>
-                    <c:if test="${page == totalPage}">
+                    <c:if test="${pageMaker.next}">
                         <li class="page-item disabled">
-                            <a class="point-btn page-link disabled-atag" href="#"><span class="glyphicon glyphicon-chevron-right"></span></a>
-                        </li>
-                    </c:if>
-                    <c:if test="${page < totalPage}">
-                        <li class="page-item">
-                        <a class="point-btn page-link" href="/list?page=${page-1}&search=${search}&keyword=${keyword}"><span class="glyphicon glyphicon-chevron-right"></span></a>
-                        </li>
-                    </c:if>
-                    <c:if test="${page != totalPage}">
-                        <li class="page-item">
-                            <a class="point-btn page-link" href="/list?page=${totalPage}&search=${search}&keyword=${keyword}"><span class="glyphicon glyphicon-forward"></span></a>
+                            <a href="/list${pageMaker.makeQuery(pageMaker.endPage + 1)}">
+                            <span class="glyphicon glyphicon-chevron-left"></span></a>
                         </li>
                     </c:if>
                 </ul>

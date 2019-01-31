@@ -1,6 +1,7 @@
 package my.examples.springjdbc.dao;
 
 import my.examples.springjdbc.dto.Board;
+import my.examples.springjdbc.dto.Criteria;
 import my.examples.springjdbc.dto.User;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
@@ -31,14 +32,6 @@ public class BoardDaoImpl implements BoardDao{
         this.simpleJdbcInsert = new SimpleJdbcInsert(dataSource)
                 .withTableName("Board")
                 .usingGeneratedKeyColumns("id");
-    }
-
-    @Override
-    public List<Board> selectAllBoards(int start,int limit) {
-        Map<String, Object> paramMap = new HashMap<>();
-        paramMap.put("start", start);
-        paramMap.put("limit", limit);
-        return jdbc.query(SELECT_BOARDS, paramMap,rowMapper);
     }
 
     @Override
@@ -115,8 +108,10 @@ public class BoardDaoImpl implements BoardDao{
 
     @Override
     public long deleteBoard(Long id) {
-        long result = 0;
         Map<String, Object> paramMap = new HashMap<>();
+        String msg = "삭제된 게시물입니다";
+        paramMap.put("title",msg);
+        paramMap.put("content",msg);
         paramMap.put("id",id);
         return jdbc.update(DELETE_BOARD, paramMap);
     }
@@ -160,5 +155,22 @@ public class BoardDaoImpl implements BoardDao{
 
         Number number = simpleJdbcInsert.executeAndReturnKey(paramMap);
         return number.longValue();
+    }
+
+    @Override
+    public long updateBoard(Board board) {
+        Map<String, Object> paramMap = new HashMap<>();
+        paramMap.put("title",board.getTitle());
+        paramMap.put("content",board.getContent());
+        paramMap.put("id",board.getId());
+        return jdbc.update(UPDATE_BOARD, paramMap);
+    }
+
+    @Override
+    public List<Board> selectAllBoards(Criteria cri) {
+        Map<String, Object> paramMap = new HashMap<>();
+        paramMap.put("start",cri.getPage());
+        paramMap.put("limit",cri.getPerPageNum());
+        return jdbc.query(SELECT_BOARDS, paramMap,rowMapper);
     }
 }

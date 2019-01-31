@@ -1,12 +1,15 @@
 package my.examples.springjdbc.controller;
 
 import my.examples.springjdbc.dto.Board;
+import my.examples.springjdbc.dto.Criteria;
+import my.examples.springjdbc.dto.PageMaker;
 import my.examples.springjdbc.dto.User;
 import my.examples.springjdbc.service.BoardService;
 import my.examples.springjdbc.service.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -22,13 +25,17 @@ public class BoardController {
     }
 
     @GetMapping("/list")
-    public String main(
-            @RequestParam(name = "page", required = false, defaultValue = "1") int page,
-            @RequestParam(name = "search", required = false, defaultValue = "") String option,
-            @RequestParam(name = "keyword", required = false, defaultValue = "") String keyword,
-            Model model) {
-        List<Board> boards = boardService.selectAllBoards(page);
+    public String main(@ModelAttribute("cri") Criteria cri,
+                       @RequestParam(name="page", required = false, defaultValue = "1") int page,
+                       Model model) {
+        List<Board> boards = boardService.selectAllBoards(cri);
+        PageMaker pageMaker = new PageMaker();
+        pageMaker.setCri(cri);
+        int totalNum = boardService.selectAllCount();
+        pageMaker.setTotalCount(totalNum);
 
+        model.addAttribute("page", page);
+        model.addAttribute("pageMaker", pageMaker);
         model.addAttribute("boards", boards);
         return "/board/list";
     }
@@ -52,6 +59,20 @@ public class BoardController {
         return "/board/modify";
     }
 
+    @PostMapping("/modify")
+    public String modifyAction(
+            @RequestParam(name = "id") long id,
+            @RequestParam(name = "title") String title,
+            @RequestParam(name = "content") String content,
+                                        HttpSession session,
+                                        Model model) {
+        User user = (User)session.getAttribute("logininfo");
+        Board board = new Board(title,user.getEmail(),user.getNickname(),content,id);
+        boardService.updateBoard(board);
+        model.addAttribute("board", board);
+        return "redirect:list";
+    }
+
     @GetMapping("/write")
     public String write(){
         return "/board/write";
@@ -68,6 +89,12 @@ public class BoardController {
         boardService.updateId(id);
         model.addAttribute("message","글이 등록되었습니다.");
 
+        return "redirect:list";
+    }
+
+    @GetMapping("/delete")
+    public String delete(@RequestParam(name="id") long id) {
+        boardService.deleteBoard(id);
         return "redirect:list";
     }
 

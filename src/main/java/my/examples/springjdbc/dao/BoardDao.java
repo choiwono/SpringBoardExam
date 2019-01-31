@@ -1,6 +1,7 @@
 package my.examples.springjdbc.dao;
 
 import my.examples.springjdbc.dto.Board;
+import my.examples.springjdbc.dto.Criteria;
 
 import java.util.List;
 
@@ -9,7 +10,7 @@ public interface BoardDao {
     // 게시글 1개 조회
     // 검색
     // 페이징
-    List<Board> selectAllBoards(int start,int limit);
+    //List<Board> selectAllBoards(int start,int limit);
     Board selectBoard(Long id);
     List<Board> searchBoards(String option,String keyword);
     int selectAllCount();
@@ -22,4 +23,6 @@ public interface BoardDao {
     long updateReadCount(long id);
     long updateReBoard(Board board);
     long addReBoard(Board board);
+    long updateBoard(Board board);
+    List<Board> selectAllBoards(Criteria cri);
 }

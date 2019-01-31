@@ -30,7 +30,7 @@
                                         <input type="hidden" name="id" value="${board.id}"/>
                                         <input type="hidden" name="email" value="${sessionScope.logininfo.email}" />
                                         <input type="hidden" name="name" value="${sessionScope.logininfo.name}"/>
-                                        <input value="${board.name}" id="present_address" class="form-control" disabled/>
+                                        <input value="${board.nickname}" id="present_address" class="form-control" disabled/>
                                     </div>
                                 </div>
                                 <div class="form-group row">

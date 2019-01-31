@@ -4,8 +4,8 @@ import javax.servlet.*;
 import javax.servlet.annotation.WebFilter;
 import java.io.IOException;
 
-@WebFilter(filterName = "WebFilter", urlPatterns = {"/*"})
-public class WebFilter implements Filter {
+@WebFilter(filterName = "CustomWebFilter", urlPatterns = {"/*"})
+public class CustomWebFilter implements Filter {
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
 

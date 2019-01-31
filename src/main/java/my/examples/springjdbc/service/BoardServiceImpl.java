@@ -2,6 +2,7 @@ package my.examples.springjdbc.service;
 
 import my.examples.springjdbc.dao.BoardDao;
 import my.examples.springjdbc.dto.Board;
+import my.examples.springjdbc.dto.Criteria;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -13,12 +14,12 @@ public class BoardServiceImpl implements BoardService {
     @Autowired
     private BoardDao boardDao;
 
-    @Override
+    /*@Override
     @Transactional(readOnly = true)
     public List<Board> selectAllBoards(int page) {
         int start = page * 10 - 10;
         return boardDao.selectAllBoards(start,10);
-    }
+    }*/
 
     @Override
     @Transactional(readOnly = true)
@@ -58,12 +59,6 @@ public class BoardServiceImpl implements BoardService {
 
     @Override
     @Transactional
-    public long updateBoard(Long id, String title, String content) {
-        return boardDao.updateBoard(id,title,content);
-    }
-
-    @Override
-    @Transactional
     public long deleteBoard(Long id) {
         return boardDao.deleteBoard(id);
     }
@@ -88,5 +83,17 @@ public class BoardServiceImpl implements BoardService {
     @Override
     public long reAddBoard(Board board) {
         return boardDao.addReBoard(board);
+    }
+
+    @Override
+    @Transactional
+    public long updateBoard(Board board) {
+        return boardDao.updateBoard(board);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<Board> selectAllBoards(Criteria cri) {
+        return boardDao.selectAllBoards(cri);
     }
 }
