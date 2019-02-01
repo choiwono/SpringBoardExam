@@ -62,7 +62,7 @@
         margin-top: 30px;
         margin-bottom: 40px;
         margin: 0 auto;
-        max-width: 330px;
+        max-width: 350px;
         padding: 40px 40px;
 
     }
@@ -71,8 +71,18 @@
         margin-top: 5px;
     }
 
-    label > .error {
-        color:red;
+    label.error {
+        font-weight:600;
+        padding:3px 0 0 10px;
+        color:#FF0000;
+        display:block;
+    }
+
+    #check-email {
+        width:100%;
+    }
+    .input-group {
+        display:flex;
     }
 </style>
 <body>
@@ -90,7 +100,6 @@
                             <label for="name" class="cols-sm-2 control-label">이름</label>
                             <div class="cols-sm-10">
                                 <div class="input-group">
-                                    <span class="input-group-addon"><i class="fa fa-user fa" aria-hidden="true"></i></span>
                                     <input type="text" class="form-control" name="name" id="name" minlength="2" placeholder="이름.." required/>
                                 </div>
                             </div>
@@ -99,16 +108,14 @@
                             <label for="nickname" class="cols-sm-2 control-label">닉네임</label>
                             <div class="cols-sm-10">
                                 <div class="input-group">
-                                    <span class="input-group-addon"><i class="fa fa-user fa" aria-hidden="true"></i></span>
                                     <input type="text" class="form-control" name="nickname" id="nickname" minlength="2" placeholder="닉네임" required/>
                                 </div>
                             </div>
                         </div>
-                        <div class="form-group">
+                        <div class="form-group" id="check-email">
                             <label for="email" class="cols-sm-2 control-label">이메일</label>
                             <div class="cols-sm-10">
                                 <div class="input-group">
-                                    <span class="input-group-addon"><i class="fa fa-envelope fa" aria-hidden="true"></i></span>
                                     <input type="text" class="form-control" name="email" id="email"  placeholder="이메일.." required/>
                                 </div>
                             </div>
@@ -118,7 +125,6 @@
                             <label for="passwd" class="cols-sm-2 control-label">비밀번호</label>
                             <div class="cols-sm-10">
                                 <div class="input-group">
-                                    <span class="input-group-addon"><i class="fa fa-lock fa-lg" aria-hidden="true"></i></span>
                                     <input type="password" class="form-control" name="passwd" id="passwd"  placeholder="비밀번호" required/>
                                 </div>
                             </div>
@@ -128,7 +134,6 @@
                             <label for="passwd2" class="cols-sm-2 control-label">비밀번호 확인</label>
                             <div class="cols-sm-10">
                                 <div class="input-group">
-                                    <span class="input-group-addon"><i class="fa fa-lock fa-lg" aria-hidden="true"></i></span>
                                     <input type="password" class="form-control" name="passwd2" id="passwd2"  placeholder="비밀번호 확인" required/>
                                 </div>
                             </div>
@@ -150,7 +155,8 @@
                     required : true
                 },
                 email : {
-                    required : true
+                    required : true,
+                    email: true
                 },
                 passwd1 : {
                     required: "required"
@@ -171,13 +177,13 @@
                 },
                 email: {
                     required: "이메일을 입력하세요",
-                    email:"올바른 이메일을 입력해주세요"
+                    email:"올바른 이메일 형식이 아닙니다"
                 },
                 passwd1: {
                     required: "암호을 입력하세요"
                 },
                 passwd2: {
-                    required: "암호 확인을 입력하세요",
+                    required: "암호를 입력하세요",
                     equalTo:"암호가 일치하지 않습니다"
                 }
             },
@@ -190,6 +196,24 @@
             }
         });
     });
+    /*
+    var checkEmail = function(){
+        $.ajax({
+            type : 'POST',
+            data : { "email" : $("#email").val() },
+            url : "/checkEmail",
+            dataType : "json",
+            contentType : "application/json; charset=UTF-8",
+            success: function(data) {
+                if(data.result) {
+                    console.log("중복없음");
+                } else {
+                    console.log("중복있음");
+                }
+            }
+        })
+
+    }*/
 </script>
 <%@include file="../include/footer.jsp"%>
 </html>

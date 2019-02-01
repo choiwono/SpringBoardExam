@@ -3,6 +3,7 @@ package my.examples.springjdbc.service;
 import my.examples.springjdbc.dao.BoardDao;
 import my.examples.springjdbc.dto.Board;
 import my.examples.springjdbc.dto.Criteria;
+import my.examples.springjdbc.dto.PageMaker;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -70,8 +71,8 @@ public class BoardServiceImpl implements BoardService {
 
     @Override
     @Transactional
-    public long updateReadCount(long id) {
-        return boardDao.updateReadCount(id);
+    public void updateReadCount(long id) {
+        boardDao.updateReadCount(id);
     }
 
     @Override
@@ -95,5 +96,15 @@ public class BoardServiceImpl implements BoardService {
     @Transactional(readOnly = true)
     public List<Board> selectAllBoards(Criteria cri) {
         return boardDao.selectAllBoards(cri);
+    }
+
+    @Override
+    public int selectSearchCount(PageMaker pageMaker) {
+        return boardDao.selectSearchCount(pageMaker);
+    }
+
+    @Override
+    public List<Board> selectSearchBoards(PageMaker pageMaker) {
+        return boardDao.selectSearchBoards(pageMaker);
     }
 }

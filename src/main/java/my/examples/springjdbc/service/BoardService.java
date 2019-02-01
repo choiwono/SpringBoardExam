@@ -2,6 +2,7 @@ package my.examples.springjdbc.service;
 
 import my.examples.springjdbc.dto.Board;
 import my.examples.springjdbc.dto.Criteria;
+import my.examples.springjdbc.dto.PageMaker;
 
 import java.util.List;
 
@@ -15,9 +16,11 @@ public interface BoardService {
     long addBoard(Board board);
     long deleteBoard(Long id);
     long updateId(Long id);
-    long updateReadCount(long id);
+    void updateReadCount(long id);
     long updateReBoard(Board board);
     long reAddBoard(Board board);
     long updateBoard(Board board);
     List<Board> selectAllBoards(Criteria cri);
+    int selectSearchCount(PageMaker pageMaker);
+    List<Board> selectSearchBoards(PageMaker pageMaker);
 }

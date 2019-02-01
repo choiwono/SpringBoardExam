@@ -2,6 +2,7 @@ package my.examples.springjdbc.dao;
 
 import my.examples.springjdbc.dto.Board;
 import my.examples.springjdbc.dto.Criteria;
+import my.examples.springjdbc.dto.PageMaker;
 import my.examples.springjdbc.dto.User;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
@@ -64,11 +65,6 @@ public class BoardDaoImpl implements BoardDao{
     }
 
     @Override
-    public long selectSearchCount(String subject, String keyword) {
-        return 0;
-    }
-
-    @Override
     public long getTotalPage(int boardCount, int list) {
         int totalPage = 0;
         totalPage = boardCount / list;
@@ -125,10 +121,10 @@ public class BoardDaoImpl implements BoardDao{
     }
 
     @Override
-    public long updateReadCount(long id) {
+    public void updateReadCount(long id) {
         Map<String, Object> paramMap = new HashMap<>();
         paramMap.put("id",id);
-        return jdbc.update(UPDATE_BOARD_READCOUNT, paramMap);
+        jdbc.update(UPDATE_BOARD_READCOUNT, paramMap);
     }
 
     @Override
@@ -172,5 +168,28 @@ public class BoardDaoImpl implements BoardDao{
         paramMap.put("start",cri.getPage());
         paramMap.put("limit",cri.getPerPageNum());
         return jdbc.query(SELECT_BOARDS, paramMap,rowMapper);
+    }
+
+    @Override
+    public int selectSearchCount(PageMaker pageMaker) {
+        Map<String, Object> paramMap = new HashMap<>();
+        String sql = "SELECT COUNT(*) FROM board WHERE "
+        +pageMaker.getSearch()+" LIKE CONCAT('%','"+pageMaker.getKeyword()+"','%')";
+
+        return jdbc.queryForObject(sql, paramMap,Integer.class);
+    }
+
+    @Override
+    public List<Board> selectSearchBoards(PageMaker pageMaker) {
+        Map<String, Object> paramMap = new HashMap<>();
+        String sql = "SELECT id,title,user_id,nickname,content,regdate,read_count,"+
+                     " group_no,group_seq,group_depth FROM board"+
+                     " WHERE "+pageMaker.getSearch()+" LIKE CONCAT('%','"+pageMaker.getKeyword()+"','%')"+
+                     " ORDER BY group_no DESC, group_seq ASC"+
+                     " limit :start,:limit";
+
+        paramMap.put("start",pageMaker.getCri().getPage()-1);
+        paramMap.put("limit",pageMaker.getCri().getPerPageNum());
+        return jdbc.query(sql, paramMap,rowMapper);
     }
 }

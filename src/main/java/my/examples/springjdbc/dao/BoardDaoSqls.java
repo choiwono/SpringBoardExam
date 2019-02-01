@@ -26,4 +26,5 @@ public class BoardDaoSqls {
             "UPDATE board SET read_count=read_count+1 WHERE id=:id";
     public static final String UPDATE_REBOARD =
             "UPDATE board SET group_seq = group_seq + 1 WHERE group_no = :groupNo and group_seq > :groupSeq";
+
 }

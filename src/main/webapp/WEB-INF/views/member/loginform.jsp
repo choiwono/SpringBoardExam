@@ -75,23 +75,18 @@
     <div class="container">
         <div class="row">
             <div class="col-sm-6 col-md-4 col-md-offset-4">
-                <h1 class="text-center login-title">Login</h1>
+                <h1 class="text-center login-title">로그인</h1>
                 <div class="account-wall">
                     <form class="form-signin" method="post" action="/login">
                         <input type="text" class="form-control" name="email" placeholder="Email" required autofocus>
                         <input type="password" class="form-control" name="passwd" placeholder="Password" required>
                         <button class="btn btn-lg btn-primary btn-block" type="submit">로그인</button>
-                        <button class="btn btn-lg btn-primary btn-block" onClick="goRegister('<%="/joinform"%>')" type="button">계정 만들기</button>
+                        <button class="btn btn-lg btn-primary btn-block" onClick="goPath('/joinform')" type="button">계정 만들기</button>
                     </form>
                 </div>
             </div>
         </div>
     </div>
     </body>
-    <script type="text/javascript">
-        function goRegister(path) {
-            document.location.href = path;
-        }
-    </script>
 <%@include file="../include/footer.jsp"%>
 </html>

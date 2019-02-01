@@ -11,28 +11,21 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="#">Your Brand</a>
+            <a class="navbar-brand" href="/list">Home</a>
         </div>
 
         <!-- COLLAPSIBLE NAVBAR -->
         <div class="collapse navbar-collapse" id="alignment-example">
 
-            <!-- Links -->
-            <ul class="nav navbar-nav">
-                <li class="active"><a href="#">Link 1 <span class="sr-only">(current)</span></a></li>
-                <li><a href="#">Link 2</a></li>
-                <li><a href="#">Link 3</a></li>
-            </ul>
-
             <!-- Button -->
             <c:if test="${sessionScope.logininfo eq null}">
-                <button type="button" class="btn btn-default navbar-btn navbar-right">
-                    <a href="/loginform">로그인</a>
+                <button type="button" onClick="goPath('/loginform')" class="btn btn-default navbar-btn navbar-right">
+                    로그인
                 </button>
             </c:if>
             <c:if test="${sessionScope.logininfo ne null}">
-                <button type="button" class="btn btn-default navbar-btn navbar-right">
-                    <a href="/logout">로그아웃</a>
+                <button type="button" onClick="goPath('/logout')" class="btn btn-default navbar-btn navbar-right">
+                    로그아웃
                 </button>
                 <button type="button" style="pointer-events:none; margin-right:10px;" class="btn btn-default navbar-btn navbar-right">
                     <span>${sessionScope.logininfo.name}</span>
@@ -42,5 +35,10 @@
 
     </div>
 </nav>
+<script type="text/javascript">
+    var goPath = function(path) {
+        location.href=path;
+    }
+</script>
 <!-- Initialize Bootstrap functionality -->
 

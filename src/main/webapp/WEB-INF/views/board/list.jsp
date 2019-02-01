@@ -95,9 +95,9 @@
             </form>
             <nav id="pagenation" aria-label="Page navigation example">
                 <ul style="display:flex;" class="pagination justify-content-end">
-                    <c:if test="${pageMaker.prev}">
-                        <li class="page-item disabled">
-                            <a href="/list${pageMaker.makeQuery(pageMaker.endPage - 1)}">
+                    <c:if test="${page > 1}">
+                        <li class="page-item">
+                            <a style="height:34px;" href="/list${pageMaker.makeQuery(page - 1)}">
                             <span class="glyphicon glyphicon-chevron-left"></span></a>
                         </li>
                     </c:if>
@@ -106,10 +106,10 @@
                             <a class="page-link" href="/list${pageMaker.makeQuery(i)}">${i}</a>
                         </li>
                     </c:forEach>
-                    <c:if test="${pageMaker.next}">
-                        <li class="page-item disabled">
-                            <a href="/list${pageMaker.makeQuery(pageMaker.endPage + 1)}">
-                            <span class="glyphicon glyphicon-chevron-left"></span></a>
+                    <c:if test="${page < pageMaker.endPage}">
+                        <li class="page-item">
+                            <a style="height:34px;" href="/list${pageMaker.makeQuery(page + 1)}">
+                            <span class="glyphicon glyphicon-chevron-right"></span></a>
                         </li>
                     </c:if>
                 </ul>

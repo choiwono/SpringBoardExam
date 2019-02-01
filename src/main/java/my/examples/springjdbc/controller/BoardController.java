@@ -8,6 +8,7 @@ import my.examples.springjdbc.service.BoardService;
 import my.examples.springjdbc.service.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -27,11 +28,24 @@ public class BoardController {
     @GetMapping("/list")
     public String main(@ModelAttribute("cri") Criteria cri,
                        @RequestParam(name="page", required = false, defaultValue = "1") int page,
+                       @RequestParam(name="search", required = false) String search,
+                       @RequestParam(name="keyword", required = false) String keyword,
                        Model model) {
-        List<Board> boards = boardService.selectAllBoards(cri);
+        int totalNum = 0;
+        List<Board> boards = null;
         PageMaker pageMaker = new PageMaker();
         pageMaker.setCri(cri);
-        int totalNum = boardService.selectAllCount();
+
+        if(!StringUtils.isEmpty(search)) {
+            pageMaker.setSearch(search);
+            pageMaker.setKeyword(keyword);
+            totalNum = boardService.selectSearchCount(pageMaker);
+            boards = boardService.selectSearchBoards(pageMaker);
+        } else {
+            totalNum = boardService.selectAllCount();
+            boards = boardService.selectAllBoards(cri);
+        }
+
         pageMaker.setTotalCount(totalNum);
 
         model.addAttribute("page", page);

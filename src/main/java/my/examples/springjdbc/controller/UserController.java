@@ -71,4 +71,17 @@ public class UserController {
         userService.addUser(user);
         return "redirect:/list";
     }
+
+    @PostMapping(value = "/checkEmail")
+    public @ResponseBody String checkEmail(@RequestParam(name="email") String email,Model model){
+        boolean result = false;
+        User user = userService.getUserByEmail(email);
+        if(user == null) {
+            result = false;
+        } else {
+            result = true;
+        }
+        model.addAttribute("result",result);
+        return "/joinform";
+    }
 }
