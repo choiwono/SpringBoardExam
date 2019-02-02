@@ -2,7 +2,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <html>
 <head>
-    <title>로그인 폼</title>
+    <title>비밀번호 찾기</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <%@include file="../include/navbar.jsp"%>
@@ -72,22 +72,19 @@
     }
 </style>
 <body>
-    <div class="container">
-        <div class="row">
-            <div class="col-sm-6 col-md-4 col-md-offset-4">
-                <div class="account-wall">
-                    <h1 style="text-align:center;">로그인</h1>
-                    <form class="form-signin" method="post" action="/login">
-                        <input type="text" class="form-control" name="email" placeholder="Email" required autofocus>
-                        <input type="password" class="form-control" name="passwd" placeholder="Password" required>
-                        <button class="btn btn-lg btn-primary btn-block" type="submit">로그인</button>
-                        <button class="btn btn-lg btn-primary btn-block" onClick="goPath('/joinform')" type="button">계정 만들기</button>
-                        <button class="btn btn-lg btn-primary btn-block" onClick="goPath('/password')" type="button">비밀번호 찾기</button>
-                    </form>
-                </div>
+<div class="container">
+    <div class="row">
+        <div class="col-sm-6 col-md-4 col-md-offset-4">
+            <div class="account-wall">
+                <h1>비밀번호 찾기</h1>
+                <form class="form-signin" method="post" action="/password">
+                    <input type="text" class="form-control" name="email" placeholder="Email" required autofocus>
+                    <button style="margin-top:7.5px;" class="btn btn-lg btn-primary btn-block" type="submit">비밀번호 찾기</button>
+                </form>
             </div>
         </div>
     </div>
-    </body>
+</div>
+</body>
 <%@include file="../include/footer.jsp"%>
 </html>

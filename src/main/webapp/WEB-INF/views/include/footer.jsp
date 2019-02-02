@@ -2,7 +2,9 @@
 <footer class="page-footer font-small blue pt-4">
     <div class="container-fluid text-center text-md-left">
         <div class="row">
-            <div class="col-md-12" style="width:100%; height:150px; background-color:#337ab7;">
+            <div class="col-md-12" style="width:100%; height:150px;
+                                          background-color:#e7e7e7;
+                                          border-top:1px solid #ddd;">
                 <h2 class="text-uppercase">Footer Content</h2>
             </div>
         </div>

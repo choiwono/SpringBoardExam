@@ -82,7 +82,7 @@
         width:100%;
     }
     .input-group {
-        display:flex;
+        display:block;
     }
 </style>
 <body>
@@ -118,6 +118,7 @@
                                 <div class="input-group">
                                     <input type="text" class="form-control" name="email" id="email"  placeholder="이메일.." required/>
                                 </div>
+                                <button type="button" id="check-id" style="margin-top:7.5px;" class="btn btn-primary">중복체크</button>
                             </div>
                         </div>
 
@@ -196,24 +197,33 @@
             }
         });
     });
-    /*
-    var checkEmail = function(){
-        $.ajax({
-            type : 'POST',
-            data : { "email" : $("#email").val() },
-            url : "/checkEmail",
-            dataType : "json",
-            contentType : "application/json; charset=UTF-8",
-            success: function(data) {
-                if(data.result) {
-                    console.log("중복없음");
-                } else {
-                    console.log("중복있음");
-                }
-            }
-        })
+    var check_id = function() {
+        $("#check-id").click(function(){
+            var userid = $("#email").val();
+            var userData = {"id":userid};
 
-    }*/
+            $.ajax({
+                type : "POST",
+                url : "/checkEmail",
+                contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+                data : userData,
+                dataType : "json",
+                success : function(result) {
+                    if(result == 0){
+                        $("#check-id").attr('class','btn btn-success');
+                        $("#check-id").html("사용가능");
+                    } else {
+                        $("#check-id").attr('class','btn btn-danger');
+                        $("#check-id").html("사용불가능");
+                    }
+                },
+                error : function(error) {
+                    alert("서버가 응답하지 않습니다. \n다시 시도해주시길 바랍니다.");
+                }
+            })
+        })
+    }
+    check_id();
 </script>
 <%@include file="../include/footer.jsp"%>
 </html>

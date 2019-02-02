@@ -81,4 +81,15 @@ public class UserDaoImpl implements UserDao{
 		paramMap.put("limit", limit);
 		return jdbc.query(SELECT_USERS, paramMap, rowMapper);
     }
+
+	@Override
+	public int updatePasswordByEmail(User user) {
+		Map<String, Object> paramMap = new HashMap<>();
+		PasswordEncoder passwordEncoder =
+				PasswordEncoderFactories.createDelegatingPasswordEncoder();
+		String encodepasswd = passwordEncoder.encode(user.getPasswd());
+		paramMap.put("password",encodepasswd);
+		paramMap.put("email",user.getEmail());
+		return jdbc.update(UPDATE_PASSWORD_BY_EMAIL, paramMap);
+	}
 }

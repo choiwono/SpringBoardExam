@@ -16,6 +16,7 @@ import sun.plugin2.message.helper.URLHelper;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.List;
+import java.util.UUID;
 
 @Controller
 public class UserController {
@@ -72,16 +73,32 @@ public class UserController {
         return "redirect:/list";
     }
 
-    @PostMapping(value = "/checkEmail")
-    public @ResponseBody String checkEmail(@RequestParam(name="email") String email,Model model){
-        boolean result = false;
+    @GetMapping("/password")
+    public String password() { return "/member/findpassword"; }
+
+    @PostMapping("/password")
+    public String findPassword(@RequestParam(name="email") String email,
+                                                           Model model) {
         User user = userService.getUserByEmail(email);
-        if(user == null) {
-            result = false;
-        } else {
-            result = true;
+        if(!user.getEmail().isEmpty()) {
+            String password = UUID.randomUUID().toString();
+            user.setPasswd(password);
+            userService.updateUserPassword(user);
         }
-        model.addAttribute("result",result);
-        return "/joinform";
+        return "redirect:/list";
+    }
+
+    @PostMapping(value = "/checkEmail")
+    public @ResponseBody int checkEmail(HttpServletRequest req){
+        int result = 0;
+        String id = req.getParameter("id");
+        System.out.println(id);
+        User user = userService.getUserByEmail(id);
+        if(user == null) {
+            result = 0;
+        } else {
+            result = 1;
+        }
+        return result;
     }
 }

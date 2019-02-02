@@ -8,4 +8,5 @@ public interface UserService {
     public User addUser(User user);
     public User getUserByEmail(String email);
     List<User> getUsers(int page);
+    int updateUserPassword(User user);
 }

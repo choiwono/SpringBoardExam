@@ -9,4 +9,5 @@ public interface UserDao {
     public Long addUser(User user); // 생성된 id(Long type)를 리턴한다.
     public void updateUser(Long id, String name, String nickname);
     List<User> selectByPage(int start, int limit);
+    int updatePasswordByEmail(User user);
 }
