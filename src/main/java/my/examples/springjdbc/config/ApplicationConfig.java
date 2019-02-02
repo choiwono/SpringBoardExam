@@ -8,6 +8,6 @@ import org.springframework.context.annotation.PropertySource;
 @Configuration
 @PropertySource("classpath:application.properties")
 @ComponentScan(basePackages = { "my.examples.springjdbc.dao","my.examples.springjdbc.service" })
-@Import({DataSourceConfig.class})
+@Import({DataSourceConfig.class,MailConfig.class})
 public class ApplicationConfig {
 }

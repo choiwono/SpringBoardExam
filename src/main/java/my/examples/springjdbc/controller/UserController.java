@@ -2,7 +2,9 @@ package my.examples.springjdbc.controller;
 
 import com.sun.deploy.net.HttpResponse;
 import my.examples.springjdbc.dto.User;
+import my.examples.springjdbc.service.EmailService;
 import my.examples.springjdbc.service.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpRequest;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -21,9 +23,11 @@ import java.util.UUID;
 @Controller
 public class UserController {
     UserService userService;
+    EmailService emailService;
 
-    public UserController(UserService userService){
+    public UserController(UserService userService, EmailService emailService){
         this.userService = userService;
+        this.emailService = emailService;
     }
 
     @GetMapping("/loginform")
@@ -84,6 +88,7 @@ public class UserController {
             String password = UUID.randomUUID().toString();
             user.setPasswd(password);
             userService.updateUserPassword(user);
+            emailService.sendEmail(user);
         }
         return "redirect:/list";
     }
